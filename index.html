@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BernieV – Official Links</title>
+
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0b1e2d" />
+
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .catch(err => console.log('Service worker registration failed:', err));
+        });
+    }
+</script>
+
+<style>
+    :root { --accent: #00ffc8; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+        height: 100%;
+        overflow-x: hidden;
+        font-family: "Inter", sans-serif;
+        color: #e8ecf3;
+        background: linear-gradient(135deg, #0b1e2d, #0f3142, #134e5e, #1e4d5e);
+        background-size: 400% 400%;
+        animation: gradient 22s ease infinite;
+    }
+
+    @keyframes gradient {
+        0%   { background-position: 0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .page {
+        max-width: 420px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 12px 10px 30px;
+        position: relative;
+        background: rgba(0,0,0,0.25);
+        backdrop-filter: blur(12px);
+        border-radius: 24px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        touch-action: pan-y;
+    }
+
+    /* taal + install rij zoals op GitHub */
+    .lang-wrapper {
+        text-align: center;
+        padding: 6px 12px 0 12px;
+        margin-top: 6px;
+    }
+
+    .lang-switch {
+        display: inline-flex;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .lang-btn {
+        border: none;
+        padding: 4px 9px;
+        border-radius: 999px;
+        font-size: 11px;
+        background: rgba(0,0,0,0.6);
+        color: #e8ecf3;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    .lang-btn.active { background: var(--accent); color: #000; font-weight: 600; }
+
+    .install-btn {
+        background: rgba(0,0,0,0.85);
+        color: #e8ecf3;
+        font-weight: 500;
+    }
+
+    .lang-hint {
+        font-size: 11px;
+        opacity: 0;
+        margin-top: 6px;
+        pointer-events: none;
+        transition: opacity 0.6s ease;
+    }
+
+    /* --- MUSIC BANNER ABOVE PROFILE --- */
+    .music-banner {
+        width: 94%;
+        margin: 12px auto 4px;
+        padding: 8px 12px;
+        border-radius: 16px;
+        background: rgba(0,0,0,0.7);
+        border: 1px solid rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.6);
+    }
+
+    .music-text {
+        font-size: 11.5px;
+        text-align: left;
+        line-height: 1.3;
+    }
+
+    .music-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border: none;
+        border-radius: 999px;
+        padding: 6px 12px;
+        background: var(--accent);
+        color: #000;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 0 12px rgba(0,255,200,0.7);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .music-btn:hover {
+        transform: scale(1.03);
+        box-shadow: 0 0 16px rgba(0,255,200,0.9);
+    }
+
+    .music-btn:active {
+        transform: scale(0.96);
+        box-shadow: 0 0 8px rgba(0,255,200,0.6);
+    }
+
+    .music-icon {
+        font-size: 13px;
+    }
+
+    .music-label {
+        font-size: 11.5px;
+    }
+
+    #musicPlayer {
+        display: none;
+    }
+
+    /* Profile + share */
+    .profile-wrapper {
+        position: relative;
+        width: fit-content;
+        margin: 18px auto 8px;
+    }
+
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 18px;
+        object-fit: cover;
+        display: block;
+        border: 3px solid var(--accent);
+        box-shadow: 0 0 30px var(--accent);
+    }
+
+    .share-btn {
+        position: absolute;
+        right: -6px;
+        top: -6px;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        border: none;
+        background: rgba(0,0,0,0.85);
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0,0,0,0.7);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .share-btn:hover {
+        transform: scale(1.05);
+        background: rgba(0,0,0,0.95);
+        box-shadow: 0 0 14px rgba(0,0,0,0.9);
+    }
+
+    .share-btn:active {
+        transform: scale(0.96);
+    }
+
+    h1 {
+        font-size: 30px;
+        margin: 6px 0 4px;
+        letter-spacing: 2px;
+        font-weight: 800;
+    }
+
+    .tagline {
+        font-size: 13px;
+        line-height: 18px;
+        margin-bottom: 10px;
+    }
+
+    .tag-btn-row {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+    }
+
+    .tag-btn {
+        background: rgba(0,0,0,0.55);
+        padding: 7px 14px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .tabs-wrapper { position: relative; margin: 10px 0 8px; }
+
+    .tabs {
+        display: flex;
+        gap: 8px;
+        padding: 0 20px 14px 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+
+    .tab {
+        flex: 0 0 auto;
+        padding: 8px 16px;
+        font-size: 12px;
+        border-radius: 999px;
+        background: rgba(0,0,0,0.55);
+        cursor: pointer;
+        white-space: nowrap;
+        scroll-snap-align: center;
+    }
+
+    .tab.active {
+        background: var(--accent);
+        color: #000;
+        font-weight: 600;
+    }
+
+    .swipe-hint {
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 11px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.6s ease;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .section-title {
+        font-size: 22px;
+        margin: 10px 0 8px;
+    }
+
+    .vertical-scroll-hint {
+        font-size: 18px;
+        opacity: 0;
+        margin-top: 8px;
+        pointer-events: none;
+        transition: opacity 0.6s ease;
+        color: var(--accent);
+    }
+
+    .bio-text {
+        width: 94%;
+        margin: 0 auto;
+        font-size: 13px;
+        line-height: 21px;
+    }
+
+    .track-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 94%;
+        margin: 0 auto;
+    }
+
+    .track-item {
+        display: flex;
+        align-items: center;
+        background: rgba(0,0,0,0.60);
+        border-radius: 16px;
+        padding: 12px;
+        gap: 14px;
+    }
+
+    .track-item img {
+        width: 68px;
+        height: 68px;
+        border-radius: 12px;
+        flex-shrink: 0;
+        object-fit: cover;
+    }
+
+    .track-details {
+        flex-grow: 1;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .track-title {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.35;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        hyphens: auto;
+    }
+
+    .track-type {
+        font-size: 12px;
+        opacity: 0.85;
+        margin-top: 3px;
+    }
+
+    .track-item.tracks-layout {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .track-item.tracks-layout .track-header {
+        text-align: left;
+        margin-bottom: 6px;
+    }
+
+    .track-item.tracks-layout .track-main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+    }
+
+    .track-main-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .service-wheel-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .service-wheel {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        border: 3px solid var(--accent);
+        background:
+            radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 45%),
+            radial-gradient(circle at 70% 70%, rgba(0,255,200,0.6), transparent 55%),
+            rgba(0,0,0,0.85);
+        color: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        box-shadow: 0 0 14px rgba(0,0,0,0.9), 0 0 22px rgba(0,255,200,0.5);
+        transition:
+            transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1),
+            box-shadow 0.35s ease,
+            background 0.35s ease;
+        padding: 0 8px;
+        text-align: center;
+    }
+
+    .service-wheel .wheel-label {
+        color: #e8ecf3;
+        text-shadow: 0 0 6px rgba(0,0,0,0.9);
+    }
+
+    .track-item.tracks-layout.open .service-wheel {
+        transform: rotate(360deg) scale(1.04);
+        box-shadow: 0 0 22px rgba(0,255,200,0.8), 0 0 32px rgba(0,0,0,0.9);
+        background:
+            radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7), transparent 45%),
+            radial-gradient(circle at 70% 70%, rgba(0,255,200,0.9), transparent 60%),
+            #001717;
+    }
+
+    .service-options {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.45s ease, opacity 0.45s ease;
+        flex-wrap: wrap;
+    }
+
+    .track-item.tracks-layout.open .service-options {
+        max-height: 120px;
+        opacity: 1;
+    }
+
+    .service-chip {
+        background: rgba(0,0,0,0.85);
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-size: 12px;
+        color: #e8ecf3;
+        border: 1px solid rgba(255,255,255,0.18);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    }
+
+    .service-chip:hover {
+        background: rgba(0,255,200,0.20);
+        transform: translateY(-1px);
+        box-shadow: 0 0 12px rgba(0,255,200,0.6);
+    }
+
+    .service-chip:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+
+    .link-btn {
+        width: 94%;
+        margin: 14px auto;
+        background: var(--accent);
+        padding: 13px;
+        font-size: 14px;
+        color: #000;
+        border-radius: 999px;
+        font-weight: 600;
+        display: block;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .contact-label {
+        width:94%;
+        margin:12px auto 4px;
+        text-align:left;
+        font-size:12px;
+        font-weight:500;
+    }
+
+    .contact-field,
+    .contact-textarea {
+        width:94%;
+        margin:0 auto 10px;
+        padding:10px;
+        border-radius:10px;
+        background:rgba(0,0,0,0.7);
+        border:1px solid rgba(255,255,255,0.12);
+        color:#e8ecf3;
+        font-size:13px;
+    }
+
+    .contact-textarea {
+        min-height:80px;
+        resize:vertical;
+    }
+
+    .contact-btn {
+        width:94%;
+        margin:14px auto;
+        background:var(--accent);
+        padding:14px;
+        font-size:15px;
+        color:#000;
+        border:none;
+        border-radius:999px;
+        font-weight:700;
+        cursor:pointer;
+    }
+
+    .footer {
+        margin-top: 35px;
+        font-size: 11px;
+        opacity: 0.75;
+    }
+
+    /* SHARE POPUP STYLING */
+    .share-popup {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.75);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    .share-box {
+        background: rgba(0,0,0,0.9);
+        border: 2px solid var(--accent);
+        border-radius: 16px;
+        padding: 20px 18px 18px;
+        width: 80%;
+        max-width: 320px;
+        text-align: center;
+        box-shadow: 0 0 22px rgba(0,255,200,0.5);
+    }
+
+    .share-box h3 {
+        margin-bottom: 8px;
+        font-size: 16px;
+    }
+
+    .share-input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border-radius: 10px;
+        border: 1px solid var(--accent);
+        background: rgba(0,0,0,0.6);
+        color: var(--accent);
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .copy-btn,
+    .close-btn {
+        width: 100%;
+        margin-top: 10px;
+        padding: 11px;
+        border-radius: 999px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .copy-btn {
+        background: var(--accent);
+        color: #000;
+    }
+
+    .close-btn {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+    }
+</style>
+</head>
+<body>
+
+<div class="page" id="swipeArea">
+
+    <div class="lang-wrapper">
+        <div class="lang-switch">
+            <button class="lang-btn active" data-lang="en" onclick="setLang('en', this)">EN</button>
+            <button class="lang-btn" data-lang="nl" onclick="setLang('nl', this)">NL</button>
+            <button class="lang-btn" data-lang="es" onclick="setLang('es', this)">ES</button>
+            <button id="installBtn" class="lang-btn install-btn" type="button">Install the app</button>
+        </div>
+        <div class="lang-hint" id="langHint"></div>
+    </div>
+
+    <!-- MUSIC BANNER -->
+    <div class="music-banner">
+        <div class="music-text" data-i18n="listen_title">
+              Check out his latest & press.
+        </div>
+        <button class="music-btn" id="musicToggleBtn" type="button">
+            <span class="music-icon" id="musicIcon">▶</span>
+            <span class="music-label" id="musicLabel" data-i18n="listen_play">Play</span>
+        </button>
+        <audio id="musicPlayer" preload="metadata">
+            <source src="latest-track.mp3" type="audio/mpeg" />
+        </audio>
+    </div>
+
+    <!-- Profile + Share -->
+    <div class="profile-wrapper">
+        <img src="profile-picture.png" class="profile-img" alt="BernieV" />
+        <button class="share-btn" type="button" onclick="openShare()" title="Share this page">⤴</button>
+    </div>
+
+    <h1>BERNIEV</h1>
+
+    <div class="tagline" data-i18n="tagline">Electronic · Beach Chill · Vocal / Deep House</div>
+
+    <div class="tag-btn-row">
+        <div class="tag-btn" data-i18n="tag1">DJ & Producer</div>
+        <div class="tag-btn" data-i18n="tag2">Pure Sol Recordings</div>
+        <div class="tag-btn" data-i18n="tag3">Waves of Connection</div>
+    </div>
+
+    <div class="tabs-wrapper">
+        <div class="tabs" id="tabs">
+            <div class="tab active" data-tab="bio">BIO</div>
+            <div class="tab" data-tab="tracks">TRACKS</div>
+            <div class="tab" data-tab="beatport">BEATPORT</div>
+            <div class="tab" data-tab="links">LINKS</div>
+            <div class="tab" data-tab="mail">MAIL</div>
+        </div>
+        <div class="swipe-hint" id="swipeHint">← swipe →</div>
+    </div>
+
+    <!-- BIO -->
+    <div id="bio" class="section active">
+        <h2 class="section-title" data-i18n="bio_title">Artist Bio</h2>
+        <div class="vertical-scroll-hint">↓ ↑</div>
+        <p class="bio-text" data-i18n="bio_text">
+            BernieV is a DJ & producer creating electronic, beach-chill and vocal deep house
+            with a warm, emotional feel. Starting on guitar in blues and rock bands, he grew
+            into progressive, deep and tech house, always chasing smooth grooves and soulful vocals.
+        </p>
+    </div>
+
+    <!-- TRACKS – with wheel layout -->
+    <div id="tracks" class="section">
+        <h2 class="section-title" data-i18n="tracks_title">Featured Tracks</h2>
+        <div class="vertical-scroll-hint">↓ ↑</div>
+        <div class="track-list">
+
+            <!-- I Need You Here -->
+            <div class="track-item tracks-layout">
+                <div class="track-header">
+                    <div class="track-title">I Need You Here</div>
+                    <div class="track-type" data-i18n="track_single">Single</div>
+                </div>
+                <div class="track-main">
+                    <div class="track-main-left">
+                        <img src="ineed-you-here.png" alt="I Need You Here">
+                    </div>
+                    <div class="service-wheel-wrapper">
+                        <button class="service-wheel" type="button">
+                            <span class="wheel-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="service-options">
+                    <a class="service-chip"
+                       href="https://open.spotify.com/track/0ZWv4JK2k7V2xn8QDzG7uI?si=V69OuH7LSbiBddPmNgnaDA"
+                       target="_blank" rel="noopener noreferrer">
+                       Spotify
+                    </a>
+                    <a class="service-chip"
+                       href="https://music.amazon.es/albums/B0G12NDQHG?ref=dm_sh_iqSTAjYykUeVqRfL4nTbAvbOV"
+                       target="_blank" rel="noopener noreferrer">
+                       Amazon
+                    </a>
+                </div>
+            </div>
+
+            <!-- Wide Awake -->
+            <div class="track-item tracks-layout">
+                <div class="track-header">
+                    <div class="track-title">Wide Awake</div>
+                    <div class="track-type" data-i18n="track_single">Single</div>
+                </div>
+                <div class="track-main">
+                    <div class="track-main-left">
+                        <img src="wide-awake.png" alt="Wide Awake">
+                    </div>
+                    <div class="service-wheel-wrapper">
+                        <button class="service-wheel" type="button">
+                            <span class="wheel-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="service-options">
+                    <a class="service-chip"
+                       href="https://open.spotify.com/track/1MqGzXjbtOEC6ACt83pWg1?si=iWHU0MsTSSyNB-u-hPEn5Q"
+                       target="_blank" rel="noopener noreferrer">
+                       Spotify
+                    </a>
+                    <a class="service-chip"
+                       href="https://music.amazon.es/albums/B0G2J7M69S?ref=dm_sh_clXSDP6DpebQvSvQ7hxr28U3e"
+                       target="_blank" rel="noopener noreferrer">
+                       Amazon
+                    </a>
+                    <a class="service-chip"
+                       href="https://youtube.com/playlist?list=OLAK5uy_ltnjaaaLAMAH_9JF2MNK1-MQJlDzwaFA0&si=aAPxVSbKWZy2x7WI"
+                       target="_blank" rel="noopener noreferrer">
+                       YouTube
+                    </a>
+                </div>
+            </div>
+
+            <!-- Love the sound of the underground -->
+            <div class="track-item tracks-layout">
+                <div class="track-header">
+                    <div class="track-title">Love the sound of the underground</div>
+                    <div class="track-type" data-i18n="track_single">Single</div>
+                </div>
+                <div class="track-main">
+                    <div class="track-main-left">
+                        <img src="love-the-sound-of-the-underground.png" alt="Love the sound of the underground">
+                    </div>
+                    <div class="service-wheel-wrapper">
+                        <button class="service-wheel" type="button">
+                            <span class="wheel-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="service-options">
+                    <a class="service-chip"
+                       href="https://open.spotify.com/track/0sbZedpaeuOeYVvGhXh8lL?si=3AdIalDJQ2KMgQPTxug_9g"
+                       target="_blank" rel="noopener noreferrer">
+                       Spotify
+                    </a>
+                    <a class="service-chip"
+                       href="https://music.amazon.es/albums/B0G2JR7S5M?ref=dm_sh_bewyfAtx4TVHtzKxAWdLekImo"
+                       target="_blank" rel="noopener noreferrer">
+                       Amazon
+                    </a>
+                    <a class="service-chip"
+                       href="https://youtube.com/playlist?list=OLAK5uy_lDYrO9znS63cOkOzdqnmuQI_NZKK6yr3M&si=tqCRJjNh_iRGM917"
+                       target="_blank" rel="noopener noreferrer">
+                       YouTube
+                    </a>
+                </div>
+            </div>
+
+            <!-- Oh I Give You Love -->
+            <div class="track-item tracks-layout">
+                <div class="track-header">
+                    <div class="track-title">Oh I Give You Love</div>
+                    <div class="track-type" data-i18n="track_single">Single</div>
+                </div>
+                <div class="track-main">
+                    <div class="track-main-left">
+                        <img src="oh-i-give-you-love.png" alt="Oh I Give You Love">
+                    </div>
+                    <div class="service-wheel-wrapper">
+                        <button class="service-wheel" type="button">
+                            <span class="wheel-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="service-options">
+                    <a class="service-chip"
+                       href="https://open.spotify.com/track/1eJoCbjxvVElFnGMKs1C1c?si=tTAnNE-LQR-d2sUnY7T8Ag"
+                       target="_blank" rel="noopener noreferrer">
+                       Spotify
+                    </a>
+                    <a class="service-chip"
+                       href="https://music.amazon.es/albums/B0G2JMVGMX?trackAsin=B0G2JM2XH6&do=play&ts=1763832553&ref=dm_sh_rtK53x5IcjDNTaXc1KysYtceN"
+                       target="_blank" rel="noopener noreferrer">
+                       Amazon
+                    </a>
+                    <a class="service-chip"
+                       href="https://youtube.com/playlist?list=OLAK5uy_lfN6PNJnsceBv9EDypuY26I50R0ndNWHY&si=PuMNkZnLanC2p3qU"
+                       target="_blank" rel="noopener noreferrer">
+                       YouTube
+                    </a>
+                </div>
+            </div>
+
+            <!-- Night of My Life -->
+            <div class="track-item tracks-layout">
+                <div class="track-header">
+                    <div class="track-title">Night of My Life</div>
+                    <div class="track-type" data-i18n="track_single">Single</div>
+                </div>
+                <div class="track-main">
+                    <div class="track-main-left">
+                        <img src="night-of-my-life.png" alt="Night of My Life">
+                    </div>
+                    <div class="service-wheel-wrapper">
+                        <button class="service-wheel" type="button">
+                            <span class="wheel-label"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="service-options">
+                    <a class="service-chip"
+                       href="https://open.spotify.com/track/7wBT7k3ilt8lBne3hF2vKu?si=3eFUGKZwRyCDPGpXqg_f8w"
+                       target="_blank" rel="noopener noreferrer">
+                       Spotify
+                    </a>
+                    <a class="service-chip"
+                       href="https://music.amazon.es/albums/B0G2J2DDQF?ref=dm_sh_TcWeApI3jb50UQOHr05NMxRHa"
+                       target="_blank" rel="noopener noreferrer">
+                       Amazon
+                    </a>
+                    <a class="service-chip"
+                       href="https://youtube.com/playlist?list=OLAK5uy_lJSQTVjiBSI2qRP0ueStkcTRDuI5hMh-4&si=fIuvZZmFJYyQ3r4C"
+                       target="_blank" rel="noopener noreferrer">
+                       YouTube
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BEATPORT -->
+    <div id="beatport" class="section">
+        <h2 class="section-title" data-i18n="beatport_title">Beatport Releases</h2>
+        <div class="vertical-scroll-hint">↓ ↑</div>
+        <div class="track-list">
+            <div class="track-item">
+                <img src="ineed-you-here.png" alt="I Need You Here">
+                <div class="track-details">
+                    <div class="track-title">I Need You Here</div>
+                    <div class="track-type">Original Mix</div>
+                </div>
+                <a class="service-chip" href="https://www.beatport.com/track/i-need-you-here-original-mix/22652575" target="_blank" rel="noopener noreferrer">Beatport</a>
+            </div>
+            <div class="track-item">
+                <img src="wide-awake.png" alt="Wide Awake">
+                <div class="track-details">
+                    <div class="track-title">Wide Awake</div>
+                    <div class="track-type">Original Mix</div>
+                </div>
+                <a class="service-chip" href="https://www.beatport.com/track/wide-awake-original-mix/22652773" target="_blank" rel="noopener noreferrer">Beatport</a>
+            </div>
+            <div class="track-item">
+                <img src="oh-i-give-you-love.png" alt="Oh I Give You Love">
+                <div class="track-details">
+                    <div class="track-title">Oh I Give You Love</div>
+                    <div class="track-type">Original Mix</div>
+                </div>
+                <a class="service-chip" href="https://www.beatport.com/track/oh-i-give-you-love-original-mix/22653219" target="_blank" rel="noopener noreferrer">Beatport</a>
+            </div>
+            <div class="track-item">
+                <img src="night-of-my-life.png" alt="Night of My Life">
+                <div class="track-details">
+                    <div class="track-title">Night of My Life</div>
+                    <div class="track-type">Original Mix</div>
+                </div>
+                <a class="service-chip" href="https://www.beatport.com/track/night-of-my-life-original-mix/22652583" target="_blank" rel="noopener noreferrer">Beatport</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- LINKS -->
+    <div id="links" class="section">
+        <h2 class="section-title" data-i18n="links_title">Other Links</h2>
+        <div class="vertical-scroll-hint">↓ ↑</div>
+        <a class="link-btn" href="https://www.youtube.com/@BernieVMusic" target="_blank" rel="noopener noreferrer" data-i18n="link_youtube">YouTube Channel</a>
+        <a class="link-btn" href="https://www.facebook.com/share/17WviaJAYx/" target="_blank" rel="noopener noreferrer" data-i18n="link_facebook">Facebook Page</a>
+        <a class="link-btn" href="https://www.beatport.com/artist/berniev/1459521" target="_blank" rel="noopener noreferrer" data-i18n="link_beatport">Beatport Artist Page</a>
+    </div>
+
+    <!-- CONTACT -->
+    <div id="mail" class="section">
+        <h2 class="section-title" data-i18n="mail_title">Contact Me</h2>
+        <div class="vertical-scroll-hint">↓ ↑</div>
+        <p class="bio-text contact-text" data-i18n="mail_intro">
+            Leave your name, email address and a short message and I will get back to you.
+        </p>
+        <form method="POST" action="https://formspree.io/f/xankjavl">
+            <div class="contact-label" data-i18n="mail_name_label">Your name</div>
+            <input class="contact-field" type="text" name="name" placeholder="Your name" />
+
+            <div class="contact-label" data-i18n="mail_email_label">Your email</div>
+            <input class="contact-field" type="email" name="email" placeholder="you@example.com" required />
+
+            <div class="contact-label" data-i18n="mail_message_label">Your message</div>
+            <textarea class="contact-textarea" name="message" placeholder="Write your message here..." required></textarea>
+
+            <input type="hidden" name="_subject" value="New message from BernieV – Official Links page">
+            <input type="text" name="_gotcha" style="display:none">
+
+            <button type="submit" class="contact-btn" data-i18n="mail_button">Send Message</button>
+        </form>
+    </div>
+
+    <div class="footer" data-i18n="footer">© 2025 BernieV</div>
+
+    <!-- SHARE POPUP -->
+    <div id="sharePopup" class="share-popup">
+        <div class="share-box">
+            <h3>Share this link</h3>
+            <input id="shareLink" class="share-input" type="text" readonly>
+            <button class="copy-btn" onclick="copyShareLink()">Copy</button>
+            <button class="close-btn" onclick="closeShare()">Close</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const tabs = ['bio', 'tracks', 'beatport', 'links', 'mail'];
+    let currentIndex = 0;
+    let swipeCount = 0;
+    const swipeHint = document.getElementById('swipeHint');
+    const langHint = document.getElementById('langHint');
+    const verticalHints = document.querySelectorAll('.vertical-scroll-hint');
+
+    function openShare() {
+        const popup = document.getElementById('sharePopup');
+        const linkField = document.getElementById('shareLink');
+        linkField.value = window.location.href;
+        popup.style.display = 'flex';
+    }
+
+    function closeShare() {
+        document.getElementById('sharePopup').style.display = 'none';
+    }
+
+    function copyShareLink() {
+        const field = document.getElementById('shareLink');
+
+        // Select text for older mobile support
+        field.focus();
+        field.select();
+        field.setSelectionRange(0, 99999);
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(field.value)
+                .then(() => alert("Link copied!"))
+                .catch(() => alert("Could not copy link"));
+        } else {
+            // Fallback
+            try {
+                const successful = document.execCommand('copy');
+                alert(successful ? "Link copied!" : "Could not copy link");
+            } catch (e) {
+                alert("Could not copy link");
+            }
+        }
+    }
+
+    let firstLangChosen = false;
+    let consecutiveSameClicks = 0;
+    let lastLang = null;
+    let langInterval = null;
+    let langTimeout = null;
+    let currentLang = 'en';
+
+    const hintMessages = ["Choose your language ↑", "Elige tu idioma ↑", "Kies je taal ↑"];
+    let msgIndex = 0;
+
+    function startLangHint() {
+        langHint.style.opacity = '0.75';
+        langHint.textContent = hintMessages[msgIndex];
+        langInterval = setInterval(() => {
+            msgIndex = (msgIndex + 1) % hintMessages.length;
+            langHint.textContent = hintMessages[msgIndex];
+        }, 2000);
+    }
+
+    function stopLangHint() {
+        clearInterval(langInterval);
+        clearTimeout(langTimeout);
+        langHint.style.opacity = '0';
+    }
+
+    const i18n = {
+        en: {
+            tagline: "Electronic · Beach Chill · Vocal / Deep House",
+            tag1: "DJ & Producer",
+            tag2: "Pure Sol Recordings",
+            tag3: "Waves of Connection",
+            bio_title: "Artist Bio",
+            bio_text: "BernieV is a DJ & producer creating electronic, beach-chill and vocal deep house with a warm, emotional feel. Starting on guitar in blues and rock bands, he grew into progressive, deep and tech house, always chasing smooth grooves and soulful vocals.",
+            tracks_title: "Featured Tracks",
+            track_single: "Single",
+            beatport_title: "Beatport Releases",
+            links_title: "Other Links",
+            link_youtube: "YouTube Channel",
+            link_facebook: "Facebook Page",
+            link_beatport: "Beatport Artist Page",
+            mail_title: "Contact Me",
+            mail_intro: "Leave your name, email address and a short message and I will get back to you.",
+            mail_name_label: "Your name",
+            mail_email_label: "Your email",
+            mail_message_label: "Your message",
+            mail_button: "Send Message",
+            footer: "© 2025 BernieV",
+            tap_open: "Tap to open",
+            tap_close: "Tap to close",
+            listen_title: "Check out his latest & press",
+            listen_play: "Play",
+            listen_pause: "Pause"
+        },
+        nl: {
+            tagline: "Elektronisch · Beach Chill · Vocal / Deep House",
+            tag1: "DJ & Producer",
+            tag2: "Pure Sol Recordings",
+            tag3: "Waves of Connection",
+            bio_title: "Artiest Bio",
+            bio_text: "BernieV is een DJ & producer die elektronische, beach-chill en vocal deep house maakt met een warm, emotioneel gevoel. Begonnen op gitaar in blues- en rockbands, groeide hij door naar progressive, deep en tech house – altijd op zoek naar soepele grooves en soulvolle vocalen.",
+            tracks_title: "Uitgelichte Tracks",
+            track_single: "Single",
+            beatport_title: "Beatport Releases",
+            links_title: "Andere Links",
+            link_youtube: "YouTube Kanaal",
+            link_facebook: "Facebook Pagina",
+            link_beatport: "Beatport Artiestenpagina",
+            mail_title: "Neem Contact Op",
+            mail_intro: "Laat je naam, e-mailadres en een kort bericht achter, dan neem ik contact met je op.",
+            mail_name_label: "Je naam",
+            mail_email_label: "Jouw e-mail",
+            mail_message_label: "Jouw bericht",
+            mail_button: "Verstuur Bericht",
+            footer: "© 2025 BernieV",
+            tap_open: "Tik om te openen",
+            tap_close: "Tik om te sluiten",
+            listen_title: "Luister nu de laatste track.",
+            listen_play: "Afspelen",
+            listen_pause: "Pauze"
+        },
+        es: {
+            tagline: "Electrónica · Beach Chill · Vocal / Deep House",
+            tag1: "DJ & Productor",
+            tag2: "Pure Sol Recordings",
+            tag3: "Waves of Connection",
+            bio_title: "Biografía del Artista",
+            bio_text: "BernieV es DJ y productor que crea electrónica, beach-chill y vocal deep house con un toque cálido y emocional. Comenzó con la guitarra en bandas de blues y rock, luego evolucionó hacia progressive, deep y tech house, siempre buscando grooves suaves y voces con alma.",
+            tracks_title: "Temas Destacados",
+            track_single: "Single",
+            beatport_title: "Lanzamientos en Beatport",
+            links_title: "Otros Enlaces",
+            link_youtube: "Canal de YouTube",
+            link_facebook: "Página de Facebook",
+            link_beatport: "Página de Artista en Beatport",
+            mail_title: "Contáctame",
+            mail_intro: "Deja tu nombre, correo y un mensaje corto, y te responderé pronto.",
+            mail_name_label: "Tu nombre",
+            mail_email_label: "Tu email",
+            mail_message_label: "Tu mensaje",
+            mail_button: "Enviar Mensaje",
+            footer: "© 2025 BernieV",
+            tap_open: "Toca para abrir",
+            tap_close: "Toca para cerrar",
+            listen_title: "su última pista.",
+            listen_play: "Reproducir",
+            listen_pause: "Pausar"
+        }
+    };
+
+    function updateWheelLabelsForLang() {
+        document.querySelectorAll('.service-wheel').forEach(btn => {
+            const labelEl = btn.querySelector('.wheel-label');
+            if (!labelEl) return;
+            const card = btn.closest('.track-item.tracks-layout');
+            const open = card && card.classList.contains('open');
+            labelEl.textContent = open ? i18n[currentLang].tap_close : i18n[currentLang].tap_open;
+        });
+    }
+
+    function updateMusicTextsForLang() {
+        const musicText = document.querySelector('.music-text');
+        const musicLabel = document.getElementById('musicLabel');
+        const audio = document.getElementById('musicPlayer');
+        if (musicText) {
+            musicText.textContent = i18n[currentLang].listen_title;
+        }
+        if (musicLabel && audio) {
+            const isPlaying = !audio.paused && !audio.ended;
+            musicLabel.textContent = isPlaying ? i18n[currentLang].listen_pause : i18n[currentLang].listen_play;
+        }
+    }
+
+    function setLang(lang, btn) {
+        currentLang = lang;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (i18n[lang][key]) el.textContent = i18n[lang][key];
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (!firstLangChosen) {
+            firstLangChosen = true;
+            stopLangHint();
+        } else {
+            if (lang === lastLang) consecutiveSameClicks++;
+            else consecutiveSameClicks = 1;
+
+            if (consecutiveSameClicks === 3) {
+                startLangHint();
+                langTimeout = setTimeout(() => {
+                    stopLangHint();
+                    consecutiveSameClicks = 0;
+                }, 6000);
+            }
+        }
+        lastLang = lang;
+
+        updateWheelLabelsForLang();
+        updateMusicTextsForLang();
+    }
+
+    function showTab(index) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(tabs[index]).classList.add('active');
+
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab')[index].classList.add('active');
+        document.querySelectorAll('.tab')[index].scrollIntoView({
+            behavior: 'smooth',
+            inline: 'center',
+            block: 'nearest'
+        });
+
+        currentIndex = index;
+        swipeCount++;
+        if (swipeCount % 2 === 0) {
+            swipeHint.style.opacity = '0.7';
+            setTimeout(() => swipeHint.style.opacity = '0', 4000);
+        }
+        verticalHints.forEach(h => h.style.opacity = '0.6');
+    }
+
+    document.querySelectorAll('.tab').forEach((tab, i) =>
+        tab.addEventListener('click', () => showTab(i))
+    );
+
+    const swipeArea = document.getElementById('swipeArea');
+    let touchstartX = 0;
+
+    swipeArea.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    swipeArea.addEventListener('touchend', e => {
+        const diff = touchstartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                showTab((currentIndex + 1) % tabs.length);
+            } else {
+                showTab((currentIndex - 1 + tabs.length) % tabs.length);
+            }
+        }
+    }, { passive: true });
+
+    let verticalTimer = null;
+    function resetVerticalTimer() {
+        clearTimeout(verticalTimer);
+        verticalHints.forEach(h => h.style.opacity = '0');
+        verticalTimer = setTimeout(() => {
+            verticalHints.forEach(h => h.style.opacity = '0.6');
+        }, 4000);
+    }
+
+    swipeArea.addEventListener('touchmove', resetVerticalTimer, { passive: true });
+    window.addEventListener('wheel', resetVerticalTimer, { passive: true });
+
+    function initServiceWheels() {
+        document.querySelectorAll('.service-wheel').forEach(button => {
+            const labelEl = button.querySelector('.wheel-label');
+            if (!labelEl) return;
+            const card = button.closest('.track-item.tracks-layout');
+            if (!card) return;
+
+            labelEl.textContent = i18n[currentLang].tap_open;
+
+            button.addEventListener('click', () => {
+                const nowOpen = !card.classList.contains('open');
+                card.classList.toggle('open', nowOpen);
+                labelEl.textContent = nowOpen ? i18n[currentLang].tap_close : i18n[currentLang].tap_open;
+            });
+        });
+    }
+
+    function initMusicPlayer() {
+        const audio = document.getElementById('musicPlayer');
+        const btn = document.getElementById('musicToggleBtn');
+        const icon = document.getElementById('musicIcon');
+        const label = document.getElementById('musicLabel');
+        if (!audio || !btn || !icon || !label) return;
+
+        let isPlaying = false;
+
+        function updateButton() {
+            icon.textContent = isPlaying ? "⏸" : "▶";
+            label.textContent = isPlaying
+                ? i18n[currentLang].listen_pause
+                : i18n[currentLang].listen_play;
+        }
+
+        btn.addEventListener('click', () => {
+            if (!isPlaying) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isPlaying = true;
+                        updateButton();
+                    }).catch(err => {
+                        console.warn("Audio play failed:", err);
+                        isPlaying = false;
+                        updateButton();
+                    });
+                } else {
+                    isPlaying = true;
+                    updateButton();
+                }
+            } else {
+                audio.pause();
+                isPlaying = false;
+                updateButton();
+            }
+        });
+
+        audio.addEventListener('ended', () => {
+            isPlaying = false;
+            updateButton();
+        });
+    }
+
+    // PWA install handling – knop is altijd zichtbaar
+    let deferredPrompt = null;
+    const installBtn = document.getElementById('installBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+    });
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                try {
+                    await deferredPrompt.userChoice;
+                } catch (err) {
+                    console.log('Install prompt error:', err);
+                }
+                deferredPrompt = null;
+            } else {
+                alert('To install this app, use your browser menu and choose "Add to Home screen".');
+            }
+        });
+    }
+
+    window.addEventListener('load', () => {
+        startLangHint();
+        swipeHint.style.opacity = '0.7';
+        verticalHints.forEach(h => h.style.opacity = '0.6');
+        initServiceWheels();
+        updateWheelLabelsForLang();
+        initMusicPlayer();
+        updateMusicTextsForLang();
+    });
+
+    document.querySelector('.lang-btn[data-lang="en"]').classList.add('active');
+</script>
+
+</body>
+</html>
