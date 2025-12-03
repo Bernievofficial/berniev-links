@@ -1,14 +1,14 @@
 const CACHE_NAME = 'berniev-cache-v1';
 
 const URLS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
-  // Voeg hier eventueel CSS, JS of afbeeldingen toe als je ze offline wilt maken
+  './',
+  './index.html',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-512.png'
 ];
 
+// Install SW and cache assets
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -18,6 +18,7 @@ self.addEventListener('install', event => {
   self.skipWaiting();
 });
 
+// Activate SW and clean old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => {
@@ -31,6 +32,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Fetch from cache first, then network
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(cached => {
